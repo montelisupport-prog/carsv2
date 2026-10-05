@@ -94,6 +94,9 @@ body{background:var(--bg);color:var(--text)}.topbar{background:rgba(255,255,255,
 .angle-btn{grid-column:auto;min-height:68px;flex-direction:column;font-size:10px;padding:7px 3px}
 .angle-ico{width:30px;height:23px}
 .angle-ico svg{width:30px;height:23px}
+.angle-ico{width:38px;height:28px}
+.angle-ico svg{width:38px;height:28px}
+.angle-btn small{font-size:8px;line-height:1;color:#768177}
 .swatch-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
 .swatch-card{padding:5px;gap:5px;border-radius:10px}
 .swatch-card>span{height:52px;border-radius:7px}
