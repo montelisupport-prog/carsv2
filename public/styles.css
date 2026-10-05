@@ -58,7 +58,7 @@ body{background:var(--bg);color:var(--text)}.topbar{background:rgba(255,255,255,
 .tint-feature-image figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:9px;padding:11px 13px;background:linear-gradient(0deg,#121614e8,#12161400);color:#fff}
 .tint-feature-image figcaption b{font-size:19px;letter-spacing:-.025em;text-shadow:0 1px 4px #0008}
 .tint-feature-image figcaption small{max-width:65%;text-align:right;font-size:9px;line-height:1.25;color:#f0f2f0;text-shadow:0 1px 3px #000}
-.tint-shades{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin:8px 0}
+.tint-shades{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0}
 .tint-shade{border:1px solid #dce2dc;background:#fff;color:#4d594f;padding:9px 4px;border-radius:9px;font-size:10px;font-weight:650}
 .tint-shade:hover{border-color:#9bac95}
 .tint-shade.active{border:2px solid #718b60;background:#f0f5ec;color:#263326;padding:8px 3px;box-shadow:0 1px 5px #22331e12}
@@ -137,3 +137,7 @@ body{background:var(--bg);color:var(--text)}.topbar{background:rgba(255,255,255,
 .swatch-pagination{align-items:center;min-height:14px;margin:6px 0 12px}
 .swatch-page-dot{transition:width .22s,background .22s}
 @media(max-width:420px){.swatch-carousel{grid-template-columns:25px minmax(0,1fr) 25px;gap:4px}.swatch-arrow{width:25px;height:25px;font-size:18px}.swatch-page .swatch-card{min-height:78px}}
+
+.review-image-placeholder{width:105px;height:69px;flex:none;display:grid!important;place-content:center;text-align:center;border-radius:8px;background:linear-gradient(145deg,#eef2eb,#e0e7df);color:#667267;font-size:8px;line-height:1.25;padding:7px}.review-image-placeholder span{display:block;margin:auto auto 4px;width:24px;height:24px;border-radius:7px;background:#d2dec9;color:#40513a;font-weight:750;font-size:9px;place-content:center}
+.tint-shade[data-vlt=none]{grid-column:span 1}
+@media(max-width:420px){.review-image-placeholder{width:82px;height:64px}.review-row{gap:6px}}

@@ -41,7 +41,8 @@ export function buildBasePrompt(config) {
   const view = angle.toLowerCase().includes('interior')
     ? 'A realistic interior view through the driver and passenger cabin that clearly shows the side windows from inside the car.'
     : `A full-vehicle automotive photograph from the ${angle} angle, showing the complete vehicle clearly.`;
-  return `Create a photorealistic reference photograph of a ${vehicle}. ${view} Respect the known year, make, model, and trim styling as closely as possible. Use factory bodywork, original-looking wheels, and a neutral factory paint color. Place the vehicle in a restrained, well-lit professional studio with realistic reflections. No people, no text, no invented branding, no body kits, no aftermarket tint or modifications. This image is an AI-created reference because no customer photo was supplied; do not claim it is a photograph of the customer's exact car.`;
+  const paint = clean(config.currentColor,50);
+  return `Create a photorealistic reference photograph of a ${vehicle}. ${view} Respect the known year, make, model, and trim styling as closely as possible. ${paint ? `Match the current factory paint color: ${paint}.` : 'Use a plausible factory paint color.'} Use factory bodywork and original-looking wheels. Place the vehicle in a restrained, well-lit professional studio with realistic reflections. No people, no text, no invented branding, no body kits, no aftermarket tint or modifications. This image is an AI-created reference because no customer photo was supplied; do not claim it is a photograph of the customer's exact car.`;
 }
 export function buildEditPrompt(config, variation = false) {
   const specs = makeSpecs(config);
@@ -52,6 +53,7 @@ export function buildEditPrompt(config, variation = false) {
     'Preserve the exact source vehicle identity, generation and body style, perspective, camera position, body proportions, existing panels, environment, background, lighting, reflections, and every detail that was not requested to change.',
     'Do not replace the vehicle, invent a new angle, change the scene, add text or logos, or modify any unselected part.',
     `Vehicle reference: ${vehicle}. Photo view: ${angle}.`,
+    config.currentColor ? `The vehicle's current paint color is ${clean(config.currentColor,50)}; preserve it unless a color wrap is selected.` : '',
     'Apply only the selected modifications below, as realistic installed changes that fit this vehicle:',
     specs.length ? specs.join('\n') : '- No requested modifications; preserve the vehicle unchanged.',
     variation ? 'Create a fresh plausible interpretation of the selected finishes while retaining the same vehicle, scene, angle, and all other requested specifications.' : 'Keep the source photograph composition intact and make only the selected changes.',
