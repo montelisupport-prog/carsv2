@@ -136,9 +136,9 @@ export async function generateOrEdit({body, env, fetcher=fetch}) {
 export function createServer({fetcher = fetch, env = process.env} = {}) {
   const server = http.createServer(async (req, res) => {
     const origin = req.headers.origin;
-    const allowedOrigin = env.CARSTUDIO_ALLOWED_ORIGIN || '';
-    if (origin && (allowedOrigin === '*' || origin === allowedOrigin)) {
-      res.setHeader('access-control-allow-origin', allowedOrigin === '*' ? '*' : origin);
+    const allowedOrigins = String(env.CARSTUDIO_ALLOWED_ORIGIN || '').split(',').map(value => value.trim()).filter(Boolean);
+    if (origin && (allowedOrigins.includes('*') || allowedOrigins.includes(origin))) {
+      res.setHeader('access-control-allow-origin', allowedOrigins.includes('*') ? '*' : origin);
       res.setHeader('vary', 'Origin');
       res.setHeader('access-control-allow-methods', 'GET, POST, OPTIONS');
       res.setHeader('access-control-allow-headers', 'content-type');
