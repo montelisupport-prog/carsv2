@@ -61,7 +61,49 @@ export function buildEditPrompt(config, variation = false) {
   ].join('\n');
 }
 function isImageData(value) { return typeof value === 'string' && /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(value); }
+function imageFromGemini(data) {
+  const parts = data?.candidates?.flatMap(candidate => candidate?.content?.parts || []) || [];
+  const part = parts.find(item => item?.inlineData?.data || item?.inline_data?.data);
+  if (!part) return null;
+  const inline = part.inlineData || part.inline_data;
+  const mime = inline.mimeType || inline.mime_type || 'image/png';
+  return `data:${mime};base64,${inline.data}`;
+}
+async function geminiGenerate({prompt, image, env, fetcher}) {
+  const model = clean(env.GEMINI_IMAGE_MODEL || 'gemini-3.1-flash-image',100);
+  const parts = [{text:prompt}];
+  if (image) {
+    const encoded = image.slice(image.indexOf(',') + 1);
+    const mime = image.slice(5, image.indexOf(';'));
+    parts.push({inline_data:{mime_type:mime,data:encoded}});
+  }
+  const response = await fetcher(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+    method:'POST',
+    headers:{'x-goog-api-key':env.GEMINI_API_KEY,'content-type':'application/json'},
+    body:JSON.stringify({contents:[{role:'user',parts}],generationConfig:{responseModalities:['IMAGE']}})
+  });
+  const data = await response.json().catch(()=>({}));
+  if (!response.ok) {
+    const message = data?.error?.message || '';
+    if (response.status === 401 || response.status === 403) throw new Error('Gemini rejected the API key or this model is not enabled for the key. Check the Gemini API key and model access.');
+    if (response.status === 429) throw Object.assign(new Error('Gemini usage limit reached. Check the API quota and billing, then try again.'),{status:429});
+    throw new Error(message || 'Gemini could not generate the image. Check model access and try again.');
+  }
+  const imageData = imageFromGemini(data);
+  if (!imageData) throw new Error('Gemini returned no image. Try a simpler modification or another photo.');
+  return imageData;
+}
 export async function generateOrEdit({body, env, fetcher=fetch}) {
+  if (env.GEMINI_API_KEY) {
+    const imageSource = isImageData(body.image) ? body.image : null;
+    const savedBase = isImageData(body.baseImage) ? body.baseImage : null;
+    let originalImage = imageSource || savedBase;
+    if (!originalImage) originalImage = await geminiGenerate({prompt:buildBasePrompt(body),env,fetcher});
+    const mods = makeSpecs(body);
+    if (!mods.length) return {ok:true,image:originalImage,originalImage,generatedReference:!imageSource&&!savedBase};
+    const image = await geminiGenerate({prompt:buildEditPrompt(body,Boolean(body.variation)),image:originalImage,env,fetcher});
+    return {ok:true,image,originalImage,generatedReference:!imageSource&&!savedBase};
+  }
   const model = env.OPENAI_IMAGE_MODEL || 'gpt-image-2.5-sunburst';
   const imageSource = isImageData(body.image) ? body.image : null;
   const savedBase = isImageData(body.baseImage) ? body.baseImage : null;
@@ -114,10 +156,10 @@ export function createServer({fetcher = fetch, env = process.env, now = () => Da
     if (req.method === 'OPTIONS') { res.writeHead(204); return res.end(); }
     const url = new URL(req.url || '/', 'http://localhost');
     if (req.method === 'GET' && url.pathname === '/api/health') {
-      return send(res, 200, {ok:true, aiConfigured:Boolean(env.OPENAI_API_KEY), accessConfigured:Boolean(env.CARSTUDIO_DEMO_CODE)});
+      return send(res, 200, {ok:true, aiConfigured:Boolean(env.GEMINI_API_KEY || env.OPENAI_API_KEY), imageProvider:env.GEMINI_API_KEY?'Gemini':env.OPENAI_API_KEY?'OpenAI':null, accessConfigured:Boolean(env.CARSTUDIO_DEMO_CODE)});
     }
     if (req.method === 'POST' && url.pathname === '/api/generate') {
-      if (!env.OPENAI_API_KEY) return send(res, 503, {error:'AI image editing is not configured yet. Add OPENAI_API_KEY to the server environment.'});
+      if (!env.GEMINI_API_KEY && !env.OPENAI_API_KEY) return send(res, 503, {error:'AI image editing is not configured yet. Add GEMINI_API_KEY to the server environment.'});
       if (!env.CARSTUDIO_DEMO_CODE) return send(res, 503, {error:'Demo access is not configured yet. Add CARSTUDIO_DEMO_CODE to the server environment.'});
       if (!sameSecret(req.headers['x-carstudio-demo-code'], env.CARSTUDIO_DEMO_CODE)) return send(res, 401, {error:'Enter the demo access code to generate a preview.'});
       const forwarded = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
@@ -139,8 +181,10 @@ export function createServer({fetcher = fetch, env = process.env, now = () => Da
           return send(res,status,{error:result.error});
         }
         return send(res,200,result);
-      } catch {
-        return send(res,502,{error:'Could not reach the AI image service. Please retry in a moment.'});
+      } catch (error) {
+        const status = error?.status === 429 ? 429 : 502;
+        const message = error?.message === 'fetch failed' ? 'Could not reach the AI image service. Please retry in a moment.' : error?.message || 'The AI image service could not complete this request.';
+        return send(res,status,{error:message});
       }
     }
     if (req.method !== 'GET' && req.method !== 'HEAD') return send(res,405,{error:'Method not allowed'});

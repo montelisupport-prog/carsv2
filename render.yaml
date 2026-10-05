@@ -11,6 +11,10 @@ services:
         value: production
       - key: CARSTUDIO_ALLOWED_ORIGIN
         value: https://carstudio-demo.onrender.com
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_IMAGE_MODEL
+        value: gemini-3.1-flash-image
       - key: OPENAI_API_KEY
         sync: false
       - key: CARSTUDIO_DEMO_CODE
