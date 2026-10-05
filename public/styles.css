@@ -85,3 +85,18 @@ body{background:var(--bg);color:var(--text)}.topbar{background:rgba(255,255,255,
 .review-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 @media(max-width:740px){.swatch-card>span{height:48px}.swatch-card>b{font-size:10px}.tint-feature-image img{max-height:340px}.tint-shade{font-size:9px;padding:9px 2px}.review-dialog{padding:18px}}
 @media(max-width:420px){.swatch-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.swatch-card>span{height:62px}.tint-shades{grid-template-columns:repeat(4,minmax(0,1fr))}.tint-feature-image figcaption b{font-size:17px}.tint-feature-image figcaption small{font-size:8px}.review-row{grid-template-columns:75px minmax(0,1fr)}}
+
+/* Keep all four vehicle views and the 4 × 2 wrap palette consistent on phones. */
+.angle-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.editor-layout{display:flex;flex-direction:column;align-items:stretch}
+.controls-column{width:100%;max-width:860px}
+.preview-column{width:100%;position:static;order:initial}
+.angle-btn{grid-column:auto;min-height:68px;flex-direction:column;font-size:10px;padding:7px 3px}
+.angle-ico{width:30px;height:23px}
+.angle-ico svg{width:30px;height:23px}
+.swatch-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.swatch-card{padding:5px;gap:5px;border-radius:10px}
+.swatch-card>span{height:52px;border-radius:7px}
+.swatch-card>b{font-size:10px;min-height:24px}
+.swatch-card.active{padding:4px}
+@media(max-width:420px){.swatch-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.swatch-card>span{height:45px}.swatch-card>b{font-size:9px;min-height:30px}.angle-btn{min-height:64px;font-size:9px}}
