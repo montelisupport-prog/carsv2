@@ -54,7 +54,7 @@ body{background:var(--bg);color:var(--text)}.topbar{background:rgba(255,255,255,
 .angle-count{border-radius:99px;padding:1px 4px;font-size:8px;font-weight:700;color:#60774f}
 .angle-btn:not(.has-photos) .angle-count{display:none}
 .tint-feature-image{position:relative;margin:10px 0 8px;border:1px solid #dce2dc;border-radius:14px;overflow:hidden;background:#f4f6f3;box-shadow:0 5px 18px #2222}
-.tint-feature-image img{display:block;width:100%;height:clamp(190px,34vw,300px);object-fit:cover;object-position:center 44%}
+.tint-feature-image img{display:block;width:100%;height:auto;max-height:330px;object-fit:contain;object-position:center;background:#edf0ed}
 .tint-feature-image figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:9px;padding:11px 13px;background:linear-gradient(0deg,#121614e8,#12161400);color:#fff}
 .tint-feature-image figcaption b{font-size:19px;letter-spacing:-.025em;text-shadow:0 1px 4px #0008}
 .tint-feature-image figcaption small{max-width:65%;text-align:right;font-size:9px;line-height:1.25;color:#f0f2f0;text-shadow:0 1px 3px #000}
@@ -83,5 +83,5 @@ body{background:var(--bg);color:var(--text)}.topbar{background:rgba(255,255,255,
 .review-row>span{color:#29332d}
 .review-note{border-radius:9px;padding:10px;background:#f4f6f2;color:#6d776f;font-size:10px;line-height:1.4}
 .review-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
-@media(max-width:740px){.swatch-card>span{height:48px}.swatch-card>b{font-size:10px}.tint-feature-image img{height:clamp(180px,54vw,270px)}.tint-shade{font-size:9px;padding:9px 2px}.review-dialog{padding:18px}}
+@media(max-width:740px){.swatch-card>span{height:48px}.swatch-card>b{font-size:10px}.tint-feature-image img{max-height:340px}.tint-shade{font-size:9px;padding:9px 2px}.review-dialog{padding:18px}}
 @media(max-width:420px){.swatch-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.swatch-card>span{height:62px}.tint-shades{grid-template-columns:repeat(4,minmax(0,1fr))}.tint-feature-image figcaption b{font-size:17px}.tint-feature-image figcaption small{font-size:8px}.review-row{grid-template-columns:75px minmax(0,1fr)}}
