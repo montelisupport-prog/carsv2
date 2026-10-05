@@ -1,0 +1,13 @@
+{
+  "name": "carstudio-shop-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node tests/server.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "version": "0.1.0"
+}
