@@ -2,20 +2,12 @@ import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { timingSafeEqual } from 'node:crypto';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(ROOT, 'public');
 const MAX_BODY = 10 * 1024 * 1024;
-const LIMIT_WINDOW_MS = 60 * 60 * 1000;
-const MAX_GENERATIONS_PER_WINDOW = 6;
 const MIME = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.svg':'image/svg+xml','.ico':'image/x-icon'};
 
-function sameSecret(a, b) {
-  const left = Buffer.from(String(a || ''));
-  const right = Buffer.from(String(b || ''));
-  return left.length === right.length && left.length > 0 && timingSafeEqual(left, right);
-}
 function send(res, status, payload) {
   res.writeHead(status, {'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'});
   res.end(JSON.stringify(payload));
@@ -141,8 +133,7 @@ export async function generateOrEdit({body, env, fetcher=fetch}) {
   return {ok:true,image:`data:image/png;base64,${image}`,originalImage,generatedReference:!imageSource&&!savedBase};
 }
 
-export function createServer({fetcher = fetch, env = process.env, now = () => Date.now(), maxPerWindow = MAX_GENERATIONS_PER_WINDOW} = {}) {
-  const generationCounts = new Map();
+export function createServer({fetcher = fetch, env = process.env} = {}) {
   const server = http.createServer(async (req, res) => {
     const origin = req.headers.origin;
     const allowedOrigin = env.CARSTUDIO_ALLOWED_ORIGIN || '';
@@ -150,30 +141,23 @@ export function createServer({fetcher = fetch, env = process.env, now = () => Da
       res.setHeader('access-control-allow-origin', allowedOrigin === '*' ? '*' : origin);
       res.setHeader('vary', 'Origin');
       res.setHeader('access-control-allow-methods', 'GET, POST, OPTIONS');
-      res.setHeader('access-control-allow-headers', 'content-type, x-carstudio-demo-code');
+      res.setHeader('access-control-allow-headers', 'content-type');
       res.setHeader('access-control-max-age', '86400');
     }
     if (req.method === 'OPTIONS') { res.writeHead(204); return res.end(); }
     const url = new URL(req.url || '/', 'http://localhost');
     if (req.method === 'GET' && url.pathname === '/api/health') {
-      return send(res, 200, {ok:true, aiConfigured:Boolean(env.GEMINI_API_KEY || env.OPENAI_API_KEY), imageProvider:env.GEMINI_API_KEY?'Gemini':env.OPENAI_API_KEY?'OpenAI':null, accessConfigured:Boolean(env.CARSTUDIO_DEMO_CODE)});
+      return send(res, 200, {ok:true, aiConfigured:Boolean(env.GEMINI_API_KEY || env.OPENAI_API_KEY), imageProvider:env.GEMINI_API_KEY?'Gemini':env.OPENAI_API_KEY?'OpenAI':null});
     }
     if (req.method === 'POST' && url.pathname === '/api/generate') {
       if (!env.GEMINI_API_KEY && !env.OPENAI_API_KEY) return send(res, 503, {error:'AI image editing is not configured yet. Add GEMINI_API_KEY to the server environment.'});
-      if (!env.CARSTUDIO_DEMO_CODE) return send(res, 503, {error:'Demo access is not configured yet. Add CARSTUDIO_DEMO_CODE to the server environment.'});
-      if (!sameSecret(req.headers['x-carstudio-demo-code'], env.CARSTUDIO_DEMO_CODE)) return send(res, 401, {error:'Enter the demo access code to generate a preview.'});
-      const forwarded = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
-      const current = now();
-      const recent = (generationCounts.get(forwarded) || []).filter(t => current - t < LIMIT_WINDOW_MS);
-      if (recent.length >= maxPerWindow) return send(res, 429, {error:'This demo has reached its preview limit for now. Please try again later.'});
       let body;
       try { body = await readJson(req); }
       catch (error) { return send(res, error.status || 400, {error:error.message}); }
       if (!clean(body.year,4) || !clean(body.make,50) || !clean(body.model,50)) return send(res,400,{error:'Enter the vehicle year, make, and model before generating.'});
       if (body.image && !isImageData(body.image)) return send(res,400,{error:'The selected source photo is not a supported image.'});
       if (body.baseImage && !isImageData(body.baseImage)) return send(res,400,{error:'The saved vehicle reference is invalid. Regenerate the reference.'});
-      if (Buffer.byteLength(body.image || '') > 8 * 1024 * 1024 || Buffer.byteLength(body.baseImage || '') > 8 * 1024 * 1024) return send(res,413,{error:'The photo is too large for the demo. Choose a smaller image.'});
-      recent.push(current); generationCounts.set(forwarded, recent);
+      if (Buffer.byteLength(body.image || '') > 8 * 1024 * 1024 || Buffer.byteLength(body.baseImage || '') > 8 * 1024 * 1024) return send(res,413,{error:'The photo is too large to process. Choose a smaller image.'});
       try {
         const result = await generateOrEdit({body,env,fetcher});
         if (!result.ok) {
