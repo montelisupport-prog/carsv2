@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node tests/server.test.mjs"
+    "test": "node tests/server.test.mjs",
+    "build:static": "node build-static.mjs"
   },
   "engines": {
     "node": ">=20"

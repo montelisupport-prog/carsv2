@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: carstudio-demo
+    name: carstudio-api
     runtime: node
     plan: free
     buildCommand: npm install
@@ -9,7 +9,17 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: CARSTUDIO_ALLOWED_ORIGIN
+        value: https://carstudio-demo.onrender.com
       - key: OPENAI_API_KEY
         sync: false
       - key: CARSTUDIO_DEMO_CODE
         sync: false
+  - type: web
+    name: carstudio-demo
+    runtime: static
+    buildCommand: npm run build:static
+    staticPublishPath: ./dist
+    envVars:
+      - key: CARSTUDIO_API_BASE
+        value: https://carstudio-api.onrender.com

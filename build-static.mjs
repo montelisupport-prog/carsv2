@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const root = new URL('.', import.meta.url).pathname;
+const source = path.join(root, 'public');
+const output = path.join(root, 'dist');
+await fs.rm(output, {recursive:true, force:true});
+await fs.cp(source, output, {recursive:true});
+const apiBase = process.env.CARSTUDIO_API_BASE || '';
+await fs.writeFile(path.join(output, 'config.js'), `window.CARSTUDIO_API_BASE = ${JSON.stringify(apiBase)};\n`);
+console.log(`Static frontend built at ${output}; API base: ${apiBase || '(same origin)'}`);

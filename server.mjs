@@ -100,6 +100,16 @@ export async function generateOrEdit({body, env, fetcher=fetch}) {
 export function createServer({fetcher = fetch, env = process.env, now = () => Date.now(), maxPerWindow = MAX_GENERATIONS_PER_WINDOW} = {}) {
   const generationCounts = new Map();
   const server = http.createServer(async (req, res) => {
+    const origin = req.headers.origin;
+    const allowedOrigin = env.CARSTUDIO_ALLOWED_ORIGIN || '';
+    if (origin && (allowedOrigin === '*' || origin === allowedOrigin)) {
+      res.setHeader('access-control-allow-origin', allowedOrigin === '*' ? '*' : origin);
+      res.setHeader('vary', 'Origin');
+      res.setHeader('access-control-allow-methods', 'GET, POST, OPTIONS');
+      res.setHeader('access-control-allow-headers', 'content-type, x-carstudio-demo-code');
+      res.setHeader('access-control-max-age', '86400');
+    }
+    if (req.method === 'OPTIONS') { res.writeHead(204); return res.end(); }
     const url = new URL(req.url || '/', 'http://localhost');
     if (req.method === 'GET' && url.pathname === '/api/health') {
       return send(res, 200, {ok:true, aiConfigured:Boolean(env.OPENAI_API_KEY), accessConfigured:Boolean(env.CARSTUDIO_DEMO_CODE)});

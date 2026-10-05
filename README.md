@@ -1,6 +1,6 @@
 # CarStudio shop demo
 
-A responsive automotive customization workspace for wrap, tint, wheel, and body shops. Tint is selected through visual darkness cards, with independent Off or VLT settings for windshield, front side windows, rear side windows, and rear windshield. Each modification category clearly shows whether it is included. Projects and concepts are stored in the current browser's IndexedDB. Customer images are sent to the configured OpenAI Images API only when a preview is generated.
+A responsive, light-interface automotive customization workspace for wrap, tint, wheel, and body shops. Tint uses high-contrast visual shade cards with all-glass, paired-side-window, and individual-area grouping; front side windows, rear side windows, windshield, and rear windshield remain independently configurable. Wheel choices use visual spoke illustrations and plain-language descriptions. Stance includes ride-height diagrams and a vehicle-specific side-reference flow. Caliper color has a live visual preview. The photo upload guide shows recommended angles and reminds staff to wipe the camera lens. Each modification category clearly shows whether it is included. Projects and concepts are stored in the current browser's IndexedDB. Customer images are sent to the configured OpenAI Images API only when a preview is generated.
 
 ## Run locally
 
@@ -16,8 +16,8 @@ If no customer photo is uploaded, CarStudio generates a model-based reference fr
 
 ## Render
 
-`render.yaml` defines a Node web service. Create the service from this repository and set `OPENAI_API_KEY` and `CARSTUDIO_DEMO_CODE` as Render secrets. Keep demo-code distribution separate from the public URL. Render's free/starter service and image API use may incur separate limits/costs depending on the selected plan and account.
+`render.yaml` defines a Render Static Site frontend and a Node API service. The static frontend sends image-generation requests to the API service. Set `OPENAI_API_KEY` and `CARSTUDIO_DEMO_CODE` as Render secrets on `carstudio-api`. Keep demo-code distribution separate from the public URL. Render's free/starter service and image API use may incur separate limits/costs depending on the selected plan and account.
 
 ## Current demo scope
 
-Project records are local to a browser/device; there is no shop login, shared cloud database, or multi-tenant customer data storage in this demo. The AI endpoint has a per-IP generation limit. The production image flow needs valid server-side credentials.
+Project records are local to a browser/device; there is no shop login, shared cloud database, or multi-tenant customer data storage in this demo. The AI endpoint has a per-IP generation limit. The production image flow needs valid server-side credentials. The Render deployment uses CORS restricted to the static site origin.
