@@ -105,7 +105,8 @@ body{background:var(--bg);color:var(--text)}.topbar{background:rgba(255,255,255,
 @media(max-width:420px){.swatch-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.swatch-card>span{height:45px}.swatch-card>b{font-size:9px;min-height:30px}.angle-btn{min-height:64px;font-size:9px}}
 .swatch-carousel{display:grid;grid-template-columns:28px minmax(0,1fr) 28px;align-items:center;gap:6px;margin-top:10px}
 .swatch-grid{display:block;margin:0}
-.swatch-viewport{min-width:0;overflow:hidden;scroll-behavior:smooth;scroll-snap-type:x mandatory;border-radius:12px;touch-action:pan-x}
+.swatch-viewport{min-width:0;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:13px;touch-action:pan-x;overscroll-behavior-x:contain;outline-offset:3px}
+.swatch-viewport::-webkit-scrollbar{display:none}
 .swatch-pages{display:flex;width:100%;}
 .swatch-page{flex:0 0 100%;min-width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,1fr);align-content:stretch;gap:7px;scroll-snap-align:start;padding:1px}
 .swatch-page .swatch-card{width:100%;height:100%;min-height:80px}
@@ -121,3 +122,18 @@ body{background:var(--bg);color:var(--text)}.topbar{background:rgba(255,255,255,
 .angle-ico svg .angle-light{fill:#bf594b;stroke:#973f35;stroke-width:.6}
 .angle-ico svg .angle-wheel{fill:#344038;stroke:#f1f4f0;stroke-width:.7}
 .toast.hidden{display:none!important}
+.swatch-library-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:14px 1px 8px}
+.swatch-library-head>div{display:grid;gap:2px}
+.swatch-library-head .section-kicker{font-size:9px;letter-spacing:.17em;color:#68746c}
+.swatch-library-head small{font-size:9px;color:#818a83}
+.swatch-page-label{font-size:10px;letter-spacing:.1em;font-variant-numeric:tabular-nums;color:#717c74}
+.swatch-arrow{width:32px;height:32px;border:1px solid #e0e5de;border-radius:50%;background:linear-gradient(145deg,#fff,#f3f6f2);color:#38453c;font-size:20px;box-shadow:0 2px 8px #2637290c;transition:background .2s,transform .2s,box-shadow .2s}
+.swatch-arrow:not(:disabled):hover{background:#fff;transform:translateY(-1px);box-shadow:0 4px 11px #26372916}
+.swatch-page .swatch-card{min-height:92px;border-color:#e5e9e3;background:linear-gradient(160deg,#fff,#fbfcfa);box-shadow:0 2px 8px #26372908;transition:transform .2s,border-color .2s,box-shadow .2s}
+.swatch-page .swatch-card:hover{transform:translateY(-2px);box-shadow:0 5px 14px #26372912}
+.swatch-page .swatch-card.active{border-color:#788d6c;background:#fbfdf8;box-shadow:0 0 0 1px #788d6c33,0 5px 14px #26372910}
+.swatch-page .swatch-card>span{position:relative;overflow:hidden;box-shadow:inset 0 1px 0 #ffffff55,0 1px 3px #12181210}
+.swatch-page .swatch-card.active>span:after{content:"✓";position:absolute;right:6px;bottom:6px;width:17px;height:17px;display:grid;place-items:center;border-radius:50%;background:#ffffffeb;color:#344038;font-size:10px;font-weight:700;box-shadow:0 1px 4px #0002}
+.swatch-pagination{align-items:center;min-height:14px;margin:6px 0 12px}
+.swatch-page-dot{transition:width .22s,background .22s}
+@media(max-width:420px){.swatch-carousel{grid-template-columns:25px minmax(0,1fr) 25px;gap:4px}.swatch-arrow{width:25px;height:25px;font-size:18px}.swatch-page .swatch-card{min-height:78px}}
