@@ -451,3 +451,67 @@ body{background:var(--bg);color:#202522}
  .result-panel{order:6!important}
  .editor-details{order:7!important}
 }
+
+/* Design studio dashboard: quiet project index, no promotional/AI hero */
+.workspace-home-head{align-items:center;padding:12px 0 18px}
+.workspace-home-head h1{font-size:clamp(32px,4.2vw,48px);margin:5px 0 3px;letter-spacing:-.055em}
+.workspace-home-head p{font-size:13px}
+.home-kicker-dot{color:#9aa69c;padding:0 3px}
+.home-head-actions{display:flex;align-items:center;gap:18px}
+.home-head-actions .primary{padding:12px 17px;white-space:nowrap}
+.home-project-count{padding-right:17px;border-right:1px solid #e1e5df}
+.dash-toolbar{margin:19px 0 12px;align-items:center}
+.dash-toolbar h2{font-size:18px;letter-spacing:-.025em}
+.dash-toolbar>.section-kicker{display:none}
+.project-grid{gap:10px}
+.project-card{grid-template-columns:148px minmax(0,1fr);min-height:122px;border-radius:14px;box-shadow:0 2px 8px #26352e08}
+.project-cover{min-height:122px}
+.project-cover img{object-fit:cover}
+.project-body{padding:12px 15px}
+.project-body h3{font-size:15px;letter-spacing:-.015em}
+.project-actions{flex-direction:row;gap:6px}
+.project-actions .open-project{min-width:98px}
+.project-actions .dup-project,.project-actions .del-project{flex:0 0 36px}
+.empty-state{padding:28px 15px}
+.empty-state p{max-width:360px;margin:0 auto 14px}
+.customization-card{overflow-anchor:none}
+.tint-feature-image{position:relative;aspect-ratio:585/270;margin:8px 0;border:0;border-radius:11px;background:#edf0ed;box-shadow:none}
+.tint-feature-image img{position:absolute;top:-25.2%;left:0;display:block;width:100%;height:125.2%;max-height:none;object-fit:contain;object-position:center}
+.tint-feature-image figcaption{display:none}
+@media(max-width:740px){
+ .dashboard-view{padding-top:18px}
+ .workspace-home-head{padding:7px 0 14px}
+ .workspace-home-head h1{font-size:29px}
+ .workspace-home-head p{max-width:260px;font-size:11px}
+ .home-head-actions{gap:10px}
+ .home-head-actions .primary{padding:10px 11px;font-size:11px}
+ .home-project-count{padding-right:10px}
+ .dash-toolbar{margin:14px 0 9px}
+ .dash-toolbar h2{font-size:16px}
+ .toolbar-actions{flex:1;justify-content:flex-end}
+ .search-wrap input{width:min(40vw,190px)}
+ .project-grid{gap:8px}
+ .project-card{grid-template-columns:88px minmax(0,1fr);min-height:98px}
+ .project-cover{min-height:98px}
+ .project-body{padding:9px 10px;column-gap:8px}
+ .project-body h3{font-size:13px;align-self:center}
+ .project-body p{font-size:10px;line-height:1.3}
+ .project-meta{font-size:9px;margin-top:4px}
+ .project-actions{grid-column:2;grid-row:auto;align-self:end;justify-content:flex-end;flex-wrap:wrap}
+ .project-actions button{font-size:9px;padding:5px 7px}
+ .project-actions .open-project{min-width:0}
+ .project-actions .dup-project,.project-actions .del-project{flex-basis:28px}
+ .tint-feature-image{margin:6px 0;border-radius:9px}
+ .tint-feature-image img{height:125.2%;max-height:none;object-fit:contain}
+}
+@media(max-width:430px){
+ .workspace-home-head{align-items:flex-start}
+ .home-head-actions{flex-direction:column-reverse;align-items:flex-end;gap:7px}
+ .home-head-actions .primary{font-size:10px;padding:9px 10px}
+ .home-project-count{border:0;padding:0}
+ .project-card{grid-template-columns:76px minmax(0,1fr)}
+ .project-cover{min-height:96px}
+ .project-body{grid-template-columns:minmax(0,1fr);gap:2px}
+ .project-body h3,.project-body p,.project-meta{grid-column:1}
+ .project-actions{grid-column:1;grid-row:auto;justify-content:flex-start;gap:4px}
+}
