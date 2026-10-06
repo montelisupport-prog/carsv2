@@ -163,7 +163,8 @@ html,body{max-width:100%;overflow-x:hidden}
 @media(max-width:700px){.image-canvas{min-height:210px}.result-header{align-items:flex-start}.result-controls{width:100%;justify-content:flex-start}.concept-tile{flex-basis:clamp(145px,66%,220px);width:clamp(145px,66%,220px)}.shots-dialog{padding:20px}.split-handle span{margin:9px 9px 0;font-size:10px;padding:7px 9px}}
 
 /* Persistent build action, drag affordance, and generated angle gallery */
-.control-footer{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:10px;max-width:1440px;margin:0 auto;padding:12px max(14px,4vw) calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-top:1px solid #e2e6e1;box-shadow:0 -10px 26px #17201918}
+/* The action bar is a body child, outside the scrolling studio cards. */
+.control-footer{position:fixed;inset:auto 0 0;z-index:20;display:flex;gap:10px;width:min(calc(100% - 32px),850px);max-width:850px;margin:0 auto;padding:12px 15px calc(12px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e2e6e1;box-shadow:0 -7px 24px #18231b14}
 .control-footer>button{flex:1;min-height:48px}
 .editor-view{padding-bottom:calc(115px + env(safe-area-inset-bottom))}
 .image-canvas{height:auto!important;min-height:220px;max-height:620px}
@@ -293,7 +294,7 @@ body{background:var(--bg);color:#202522}
 .finish-row{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:8px}
 .finish-row::-webkit-scrollbar{display:none}
 .finish-chip{flex:1 0 90px;min-height:39px;border-radius:8px;font-size:11px}
-.control-footer{max-width:850px;margin-left:auto;margin-right:auto;left:50%;width:min(calc(100% - 32px),850px);transform:translateX(-50%);padding:12px 15px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -7px 24px #18231b14;z-index:12}
+
 .control-footer .outline-button{max-width:34%;white-space:nowrap}
 .generate-btn{min-height:48px;letter-spacing:.01em}
 .workspace-tabs{top:66px}
@@ -403,7 +404,7 @@ body{background:var(--bg);color:#202522}
   .sub-label{margin:5px 0 4px;font-size:8px}
   .finish-row{gap:5px}
   .finish-chip{flex:1 0 65px;min-height:32px;padding:5px;font-size:9px}
-  .control-footer{width:100%;max-width:none;left:0;transform:none;margin:0;padding:7px 10px calc(7px + env(safe-area-inset-bottom));gap:7px}
+  .control-footer{width:100%;max-width:none;padding:7px max(10px,env(safe-area-inset-left)) calc(7px + env(safe-area-inset-bottom));gap:7px}
   .control-footer>button{min-height:42px}
   .control-footer .outline-button{max-width:31%;font-size:9px;padding:6px}
   .generate-btn{font-size:11px}
@@ -696,7 +697,7 @@ body:has(#dashboard:not(.hidden)) .topbar{display:none!important}
  .image-canvas{order:1!important}
  .preview-head{order:2!important}
  .vehicle-specs{order:3!important}
- .customization-card{order:4!important;display:block!important;min-height:0}
+ .customization-card{order:4!important;display:block!important;min-height:0;padding-bottom:12px!important}
  .preview-foot{order:5!important}
  .result-panel{order:6!important;display:block}
  .result-panel.hidden{display:none!important}
