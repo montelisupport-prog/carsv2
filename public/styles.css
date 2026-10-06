@@ -427,4 +427,14 @@ body{background:var(--bg);color:#202522}
 @media(min-width:741px){.editor-layout{grid-template-columns:minmax(0,1.12fr) minmax(380px,.88fr)!important;align-items:start!important;gap:14px!important}.preview-column{grid-column:1!important;grid-row:1!important;position:sticky!important;top:112px!important;min-width:0}.customization-card{grid-column:2!important;grid-row:1!important;max-height:calc(100dvh - 148px);overflow:auto;overscroll-behavior:contain;padding-bottom:98px}.editor-details{grid-column:1!important;grid-row:2!important}.editor-head{margin-bottom:8px}.workspace-tabs{margin-bottom:9px}}
 /* The editor now starts directly at the workspace; keep the build before concept results. */
 .editor-head,.workspace-tabs{display:none!important}
-@media(max-width:740px){.customization-card{order:-1!important}.preview-column{order:1!important}.editor-details{order:2!important}}
+/* Mobile flow: show the car first, build options beneath its preview, then any saved concept. */
+@media(max-width:740px){
+ .preview-column,.preview-column>.preview-panel{display:contents!important}
+ .image-canvas{order:1!important;border-radius:14px!important;overflow:hidden}
+ .preview-head{order:2!important;background:#fff;border:1px solid #e0e5df;border-bottom:0;border-radius:14px 14px 0 0;padding:12px 14px 4px!important}
+ .vehicle-specs{order:3!important;background:#fff;border-left:1px solid #e0e5df;border-right:1px solid #e0e5df;padding:5px 14px 10px!important}
+ .customization-card{order:4!important}
+ .preview-foot{order:5!important;background:#fff;border:1px solid #e0e5df;border-top:0;border-radius:0 0 14px 14px;margin:0!important;padding:0 14px 12px!important}
+ .result-panel{order:6!important}
+ .editor-details{order:7!important}
+}
