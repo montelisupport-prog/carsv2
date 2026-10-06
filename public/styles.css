@@ -53,11 +53,6 @@ body{background:var(--bg);color:var(--text)}.topbar{background:rgba(255,255,255,
 .angle-btn.has-photos{border-color:#829775;background:#f0f5ec;color:#273229}
 .angle-count{border-radius:99px;padding:1px 4px;font-size:8px;font-weight:700;color:#60774f}
 .angle-btn:not(.has-photos) .angle-count{display:none}
-.tint-feature-image{position:relative;margin:10px 0 8px;border:1px solid #dce2dc;border-radius:14px;overflow:hidden;background:#f4f6f3;box-shadow:0 5px 18px #2222}
-.tint-feature-image img{display:block;width:100%;height:auto;max-height:330px;object-fit:contain;object-position:center;background:#edf0ed}
-.tint-feature-image figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:9px;padding:11px 13px;background:linear-gradient(0deg,#121614e8,#12161400);color:#fff}
-.tint-feature-image figcaption b{font-size:19px;letter-spacing:-.025em;text-shadow:0 1px 4px #0008}
-.tint-feature-image figcaption small{max-width:65%;text-align:right;font-size:9px;line-height:1.25;color:#f0f2f0;text-shadow:0 1px 3px #000}
 .tint-shades{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0}
 .tint-shade{border:1px solid #dce2dc;background:#fff;color:#4d594f;padding:9px 4px;border-radius:9px;font-size:10px;font-weight:650}
 .tint-shade:hover{border-color:#9bac95}
@@ -83,8 +78,8 @@ body{background:var(--bg);color:var(--text)}.topbar{background:rgba(255,255,255,
 .review-row>span{color:#29332d}
 .review-note{border-radius:9px;padding:10px;background:#f4f6f2;color:#6d776f;font-size:10px;line-height:1.4}
 .review-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
-@media(max-width:740px){.swatch-card>span{height:48px}.swatch-card>b{font-size:10px}.tint-feature-image img{max-height:340px}.tint-shade{font-size:9px;padding:9px 2px}.review-dialog{padding:18px}}
-@media(max-width:420px){.swatch-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.swatch-card>span{height:62px}.tint-shades{grid-template-columns:repeat(4,minmax(0,1fr))}.tint-feature-image figcaption b{font-size:17px}.tint-feature-image figcaption small{font-size:8px}.review-row{grid-template-columns:75px minmax(0,1fr)}}
+@media(max-width:740px){.swatch-card>span{height:48px}.swatch-card>b{font-size:10px}.tint-shade{font-size:9px;padding:9px 2px}.review-dialog{padding:18px}}
+@media(max-width:420px){.swatch-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.swatch-card>span{height:62px}.tint-shades{grid-template-columns:repeat(4,minmax(0,1fr))}.review-row{grid-template-columns:75px minmax(0,1fr)}}
 
 /* Keep all four vehicle views and the 4 × 2 wrap palette consistent on phones. */
 .angle-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
@@ -414,8 +409,6 @@ body{background:var(--bg);color:#202522}
   .generate-btn{font-size:11px}
   .editor-layout,.control-card,.preview-column{scroll-margin-top:92px}
   .mod-group[data-service]{scroll-margin-top:126px}
-  .tint-feature-image{margin:5px 0;border-radius:9px;overflow:hidden}
-  .tint-feature-image img{display:block;width:100%;max-height:155px;object-fit:cover}
   .tint-zone-intro{font-size:8px;margin:1px 0 6px}
   .tint-zones{gap:6px}
   .tint-zone{padding:7px}
@@ -475,9 +468,24 @@ body{background:var(--bg);color:#202522}
 .empty-state{padding:28px 15px}
 .empty-state p{max-width:360px;margin:0 auto 14px}
 .customization-card{overflow-anchor:none}
-.tint-feature-image{position:relative;aspect-ratio:585/270;margin:8px 0;border:0;border-radius:11px;background:#edf0ed;box-shadow:none}
-.tint-feature-image img{position:absolute;top:-25.2%;left:0;display:block;width:100%;height:125.2%;max-height:none;object-fit:contain;object-position:center}
-.tint-feature-image figcaption{display:none}
+.tint-targets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:10px 0 6px}
+.tint-target-step{min-width:0;min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:6px 3px;border:1px solid #dfe5de;border-radius:10px;background:#fff;color:#59665d;transition:border-color .18s,background .18s,transform .18s,box-shadow .18s}
+.tint-target-step:disabled{opacity:.48;cursor:default}
+.tint-target-step.is-current{border-color:#819778;background:#f3f7f0;color:#26392e;box-shadow:inset 0 0 0 1px #81977835}
+.tint-target-step.is-complete{border-color:#cdd9ca;background:#f8faf6;color:#304636}
+.step-mark{width:21px;height:21px;display:grid;place-items:center;border:1px solid #cbd3cc;border-radius:50%;background:#fff;color:#68766b;font-size:11px;font-weight:700;line-height:1}
+.is-current .step-mark{border-color:#819778;color:#405b46}
+.is-complete .step-mark{border-color:#557a5a;background:#557a5a;color:#fff}
+.step-name{font-size:12px;line-height:1.15;text-align:center;overflow-wrap:anywhere}
+.tint-step-status{min-height:19px;margin:3px 1px 9px;color:#68756b;font-size:12px;line-height:1.35}
+.tint-shades.is-advancing{pointer-events:none}
+.tint-shade.selection-confirm{animation:tint-choice-confirm .26s ease-out}
+.tint-shade.selection-confirm:after{content:"✓";position:absolute;top:4px;right:5px;width:18px;height:18px;display:grid;place-items:center;border-radius:50%;background:#557a5a;color:#fff;font-size:11px;box-shadow:0 1px 4px #17251d35;animation:tint-check-pop .24s ease-out}
+.tint-custom-apply{margin:6px 0 9px;padding:8px 12px;border:1px solid #cbd8c8;border-radius:8px;background:#eef4eb;color:#314a36;font-size:13px;font-weight:650;transition:transform .18s,background .18s}
+.tint-custom-apply:hover{background:#e4eee0;transform:translateY(-1px)}
+.tint-custom-apply.hidden{display:none}
+@keyframes tint-choice-confirm{0%{transform:scale(1)}45%{transform:scale(.96);box-shadow:0 0 0 3px #6c8d5a22}100%{transform:scale(1)}}
+@keyframes tint-check-pop{0%{opacity:0;transform:scale(.65)}65%{opacity:1;transform:scale(1.08)}100%{transform:scale(1)}}
 @media(max-width:740px){
  .dashboard-view{padding-top:18px}
  .workspace-home-head{padding:7px 0 14px}
@@ -501,8 +509,8 @@ body{background:var(--bg);color:#202522}
  .project-actions button{font-size:9px;padding:5px 7px}
  .project-actions .open-project{min-width:0}
  .project-actions .dup-project,.project-actions .del-project{flex-basis:28px}
- .tint-feature-image{margin:6px 0;border-radius:9px}
- .tint-feature-image img{height:125.2%;max-height:none;object-fit:contain}
+ .tint-target-step{min-height:58px}
+ .step-name{font-size:11px}
 }
 @media(max-width:430px){
  .workspace-home-head{align-items:flex-start}
