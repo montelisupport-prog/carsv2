@@ -81,3 +81,14 @@
  .compare-stack-card small{font-size:9px;color:#748077;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
  .compare-stage-placeholder{min-height:125px}
 }
+
+/* Saved concept details stay tucked away until the customer opens View build. */
+.concept-build-details{min-width:0;margin:0 0 10px;border:1px solid #e0e5df;border-radius:10px;background:#fbfcfa;overflow:hidden}
+.concept-build-details>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;padding:10px 13px;color:#344239;font-size:13px;font-weight:650;cursor:pointer}
+.concept-build-details>summary::-webkit-details-marker{display:none}
+.concept-build-details>summary i{font-style:normal;color:#758176;transition:transform .18s ease}
+.concept-build-details[open]>summary i{transform:rotate(180deg)}
+.concept-build-lines{padding:0 13px 4px}
+.concept-build-lines .concept-mod-row:last-child{border-bottom:0}
+.compare-stack-card b,.compare-choice b{color:#26332a}
+.compare-stack-card small,.compare-choice small{color:#6f7a72}
