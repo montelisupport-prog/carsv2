@@ -330,6 +330,19 @@ body{background:var(--bg);color:#202522}
  .generate-btn{min-height:46px;font-size:13px}
  .project-details,.photo-card{width:100%}
 }
+/* A little more tactile detail in the color and tint pickers without adding height. */
+.swatch-page .swatch-card>span{background-image:linear-gradient(145deg,#ffffff75 0%,#ffffff00 36%,#ffffff10 38%,#0000001f 100%)!important;box-shadow:inset 0 1px 0 #ffffffa8,inset 0 -5px 10px #0e19151a,0 3px 8px #1e2b201c;transition:transform .18s,box-shadow .18s}
+.swatch-page .swatch-card:hover>span{transform:translateY(-2px);box-shadow:inset 0 1px 0 #ffffffb0,0 5px 12px #1e2b202b}
+.swatch-page .swatch-card.active>span{box-shadow:inset 0 1px 0 #ffffffb8,inset 0 -5px 10px #0e191524,0 0 0 2px #fff,0 0 0 4px #718b60,0 5px 13px #1e2b2024}
+.tint-shade{position:relative;display:grid;justify-items:center;gap:4px;min-height:58px;padding:5px 4px;border-radius:10px;overflow:hidden;transition:transform .16s,border-color .16s,background .16s,box-shadow .16s}
+.tint-shade:hover{transform:translateY(-2px);box-shadow:0 4px 12px #24352b18}
+.tint-shade-glass{position:relative;display:block;width:min(100%,78px);height:25px;overflow:hidden;border:1px solid #728683;border-radius:16px 16px 5px 5px/8px 8px 5px 5px;background:linear-gradient(145deg,#d1e2dc 0%,#8eaaa7 45%,#c7d8d2 100%);box-shadow:inset 0 1px 2px #fff9,0 1px 3px #16231c20}
+.tint-shade-glass:before{content:"";position:absolute;inset:0;background:rgba(16,25,30,var(--tint-depth,0));transition:background .2s}
+.tint-shade-glass i{position:absolute;z-index:1;left:13%;top:18%;width:47%;height:48%;border-top:1px solid #ffffffad;border-radius:80% 0 0 0;transform:skewX(-18deg)}
+.tint-shade>b{font-size:10px;line-height:1.1;font-weight:700}
+.tint-shade.active{border-color:#708b66;background:linear-gradient(160deg,#f7faf3,#edf3e8);box-shadow:0 0 0 1px #708b6638,0 4px 11px #24352012}
+.tint-shade.active .tint-shade-glass{border-color:#344e43;box-shadow:0 0 0 2px #ffffff,0 0 0 3px #718b60,0 3px 8px #15231b2e}
+@media(max-width:420px){.tint-shade{min-height:52px;padding:4px 3px;gap:3px}.tint-shade-glass{height:22px;width:min(100%,64px)}.tint-shade>b{font-size:9px}}
 @media(max-width:390px){.include-status{font-size:7px}.service-tab{font-size:11px}.swatch-page .swatch-card>b{font-size:6.5px}.control-footer .outline-button{padding-left:7px;padding-right:7px}}
 
 
