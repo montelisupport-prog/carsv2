@@ -683,12 +683,19 @@ body:has(#dashboard:not(.hidden)) .new-top{background:#f6f7f3;color:#1e2822}
 
 body:has(#dashboard:not(.hidden)) .topbar{display:none!important}
 
-/* Keep the studio's key workspace content above the fold on phones. */
+/* Preserve the supplied home cover proportions. */
+@media(max-width:740px){.home-hero{height:455px;max-height:455px;min-height:0;padding:35px 23px 36px}}
+
+/* Prevent mobile studio controls from collapsing into a blank canvas. */
 @media(max-width:740px){
- .home-hero{height:330px;max-height:330px;min-height:0;padding:20px 23px 28px}
- .home-hero-image{background-size:100% 100%,100% 100%,115% auto;background-position:center,center,center 68%}
- .home-hero h1{font-size:clamp(43px,11vw,53px);line-height:.89;margin:14px 0 10px}
- .home-hero-copy p{font-size:12px;line-height:1.35;margin-bottom:12px}
- .hero-caption{bottom:9px}
+ .editor-layout{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important}
+ .editor-layout>.controls-column{display:flex!important;flex-direction:column!important;gap:8px!important;width:100%;max-width:none}
+ .editor-layout>.preview-column{display:flex!important;flex-direction:column!important;gap:8px!important;width:100%;max-width:none;order:-1!important}
+ .editor-layout>.preview-column.hidden{display:none!important}
+ .editor-layout>.preview-column>.preview-panel{display:contents!important}
+ .controls-column>.customization-card{order:1!important;display:block!important;min-height:0}
+ .controls-column>.editor-details{order:2!important;display:grid!important;min-height:0}
+ .editor-details:empty{display:none!important}
+ .result-panel{display:block}
+ .result-panel.hidden{display:none!important}
 }
-@media(max-width:360px){.home-hero{height:310px;max-height:310px;padding-top:17px}.home-hero h1{font-size:42px;margin:12px 0 8px}.home-hero-copy p{margin-bottom:10px}}
