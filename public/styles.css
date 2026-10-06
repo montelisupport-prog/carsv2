@@ -171,6 +171,7 @@ html,body{max-width:100%;overflow-x:hidden}
 .control-footer{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:10px;max-width:1440px;margin:0 auto;padding:12px max(14px,4vw) calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-top:1px solid #e2e6e1;box-shadow:0 -10px 26px #17201918}
 .control-footer>button{flex:1;min-height:48px}
 .editor-view{padding-bottom:calc(115px + env(safe-area-inset-bottom))}
+.image-canvas{height:auto!important;min-height:220px;max-height:620px}
 .image-canvas>img{object-fit:cover}
 .shots-image-frame img{object-fit:cover}
 .shots-status{min-height:18px;color:var(--muted);font-size:11px;margin:8px 0 0}
