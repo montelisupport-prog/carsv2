@@ -243,3 +243,91 @@ body{background:var(--bg);color:#202522}
 @media(max-width:430px){.workspace-home-head p{max-width:220px}.editor-head{flex-direction:column}.editor-head-actions{width:100%;justify-content:flex-start}.local-badge{display:inline-flex}.back-link{font-size:11px}.project-card{grid-template-columns:78px minmax(0,1fr)}.project-cover{min-height:92px}.project-body{padding:8px}.project-actions button{font-size:9px}.project-meta{flex-wrap:wrap}}
 .editor-layout:has(.preview-column.hidden){grid-template-columns:minmax(0,820px);justify-content:center}
 .editor-layout:has(.preview-column.hidden) .controls-column{grid-column:1;grid-row:1}
+
+/* Vehicle-first proposal builder, following the supplied customer project reference */
+.editor-layout{display:grid!important;grid-template-columns:minmax(0,850px)!important;justify-content:center;gap:14px}
+.controls-column{display:contents!important}
+.preview-column{grid-column:1!important;grid-row:1!important;position:relative!important;top:auto!important;width:100%!important;order:initial!important;display:grid;gap:10px}
+.customization-card{grid-column:1;grid-row:2;padding:18px 20px 110px}
+.project-details{grid-column:1;grid-row:3}
+.photo-card{grid-column:1;grid-row:4}
+.editor-layout:has(.preview-column.hidden){grid-template-columns:minmax(0,720px)!important}
+.editor-layout:has(.preview-column.hidden) .project-details{grid-row:1}
+.editor-layout:has(.preview-column.hidden) .photo-card{grid-row:2}
+.editor-layout:has(.preview-column.hidden) .customization-card{grid-row:3}
+.preview-panel{display:flex;flex-direction:column;padding:0;gap:0;overflow:hidden;border-radius:15px}
+.image-canvas{order:1;width:100%;height:auto;min-height:230px;max-height:470px;aspect-ratio:1.72;border-radius:0!important;background:#daddd9}
+.image-canvas>img{object-fit:contain}
+.preview-head{order:2;width:100%;padding:13px 16px 3px;align-items:center}
+.preview-head .section-kicker{display:none}
+.preview-title{font-size:clamp(20px,3vw,27px);font-weight:700;letter-spacing:-.03em}
+.preview-subtitle{font-size:11px}
+.vehicle-specs{order:3;display:flex;flex-wrap:wrap;gap:7px;padding:6px 16px 14px}
+.vehicle-spec-chip{display:inline-flex;align-items:center;min-height:26px;padding:4px 10px;border-radius:8px;background:#f0f1ef;color:#4b554e;font-size:11px;font-weight:560}
+.preview-foot{order:4;margin:0 16px 13px;padding-top:9px;border-top:1px solid #e7e9e6}
+.result-panel{margin:0 0 10px}
+.service-tabs{display:flex;align-items:stretch;gap:0;margin:5px -20px 14px;padding:0 20px;border-bottom:1px solid #e3e7e2;position:sticky;top:111px;z-index:6;background:#fff}
+.service-tab{flex:1;position:relative;min-height:44px;border:0;background:transparent;color:#6f7971;font-size:13px;font-weight:650}
+.service-tab.active{color:#1f392d}
+.service-tab.active:after{content:"";position:absolute;left:5px;right:5px;bottom:-1px;height:2px;border-radius:3px;background:#234b39}
+.mod-group[data-service]{scroll-margin-top:175px}
+.mod-group.service-hidden{display:none}
+.customization-card>.card-heading{margin-bottom:5px}
+.customization-card>.card-heading h2{font-size:19px}
+.mod-group summary{min-height:43px;padding:11px 0}
+.mod-group summary .summary-icon{width:27px;height:27px}
+.summary-title{font-size:13px}
+.summary-value{max-width:39%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px}
+.include-status{font-size:8px;letter-spacing:.1em;white-space:nowrap}
+.mod-content{padding:0 0 17px 36px}
+.swatch-library-head{align-items:center;margin-top:12px;margin-bottom:7px}
+.swatch-library-head .section-kicker{font-size:13px;letter-spacing:0;color:#2a322c}
+.swatch-library-head small{font-size:10px;color:#788178}
+.swatch-page{grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:1fr;gap:8px;padding:5px 3px;scroll-snap-align:start}
+.swatch-page .swatch-card{min-height:0;height:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px;padding:3px;border:1px solid transparent;border-radius:10px;background:transparent;box-shadow:none;text-align:center}
+.swatch-page .swatch-card>span{width:clamp(34px,5.2vw,54px);height:clamp(34px,5.2vw,54px);flex:0 0 auto;border-radius:50%;border:1px solid #0002;box-shadow:inset 0 1px 0 #ffffff66,0 2px 4px #15251c22}
+.swatch-page .swatch-card>b{display:block;min-height:0;max-width:100%;font-size:8px;line-height:1.1;font-weight:520;color:#7a837b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.swatch-page .swatch-card:hover{transform:none;box-shadow:none}
+.swatch-page .swatch-card.active{padding:3px;border:1px solid #718b60;background:#f3f7ef;box-shadow:0 0 0 1px #718b6030}
+.swatch-page .swatch-card.active>b{color:#27392d;font-weight:700}
+.swatch-page .swatch-card.active>span:after{right:0;bottom:0;width:16px;height:16px;font-size:9px}
+.swatch-pagination{margin:7px auto 10px}
+.swatch-page-label{font-size:9px}
+.custom-color-row{grid-template-columns:auto 42px minmax(0,1fr);max-width:520px;margin:13px 0 4px}
+.custom-color-row label{font-size:10px}
+.finish-row{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:8px}
+.finish-row::-webkit-scrollbar{display:none}
+.finish-chip{flex:1 0 90px;min-height:39px;border-radius:8px;font-size:11px}
+.control-footer{max-width:850px;margin-left:auto;margin-right:auto;left:50%;width:min(calc(100% - 32px),850px);transform:translateX(-50%);padding:12px 15px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -7px 24px #18231b14;z-index:12}
+.control-footer .outline-button{max-width:34%;white-space:nowrap}
+.generate-btn{min-height:48px;letter-spacing:.01em}
+.workspace-tabs{top:66px}
+@media(max-width:740px){
+ .editor-view{padding-top:12px}
+ .editor-head{padding-bottom:10px}
+ .editor-head h1{font-size:19px}
+ .workspace-tabs{top:58px;margin-bottom:10px}
+ .editor-layout{display:flex!important;flex-direction:column;gap:10px}
+ .controls-column{display:contents!important}
+ .preview-column{order:-1!important;gap:8px}
+ .image-canvas{width:100%;min-height:190px;max-height:360px;aspect-ratio:1.48}
+ .preview-head{padding:10px 12px 2px}
+ .preview-title{font-size:20px}
+ .preview-subtitle{font-size:10px}
+ .vehicle-specs{padding:5px 12px 10px;gap:5px}
+ .vehicle-spec-chip{min-height:24px;font-size:10px;padding:3px 8px}
+ .preview-foot{margin:0 12px 10px;padding-top:7px}
+ .customization-card{padding:14px 14px 108px}
+ .service-tabs{margin:4px -14px 12px;padding:0 14px;top:106px}
+ .service-tab{min-height:42px;font-size:12px}
+ .mod-content{padding-left:0}
+ .swatch-page{gap:4px;padding:5px 0}
+ .swatch-page .swatch-card>span{width:clamp(31px,9vw,43px);height:clamp(31px,9vw,43px)}
+ .swatch-page .swatch-card>b{font-size:7px}
+ .swatch-page .swatch-card.active>span:after{width:14px;height:14px;right:-1px;bottom:-1px}
+ .control-footer{width:100%;padding:9px 12px calc(9px + env(safe-area-inset-bottom));gap:8px}
+ .control-footer .outline-button{max-width:34%;font-size:11px}
+ .generate-btn{min-height:46px;font-size:13px}
+ .project-details,.photo-card{width:100%}
+}
+@media(max-width:390px){.include-status{font-size:7px}.service-tab{font-size:11px}.swatch-page .swatch-card>b{font-size:6.5px}.control-footer .outline-button{padding-left:7px;padding-right:7px}}
