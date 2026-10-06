@@ -331,3 +331,91 @@ body{background:var(--bg);color:#202522}
  .project-details,.photo-card{width:100%}
 }
 @media(max-width:390px){.include-status{font-size:7px}.service-tab{font-size:11px}.swatch-page .swatch-card>b{font-size:6.5px}.control-footer .outline-button{padding-left:7px;padding-right:7px}}
+
+
+/* Above-the-fold consultation layout: keep the car, vehicle facts, service switcher, choices, and action in the first phone screen. */
+@media(max-width:740px){
+  .topbar{height:50px;padding:0 12px}
+  .topbar-right{gap:6px}
+  .top-btn{padding:7px 9px;font-size:11px}
+  .editor-view{padding:5px 10px calc(92px + env(safe-area-inset-bottom))}
+  .editor-head{display:grid;grid-template-columns:minmax(0,1fr);gap:0;padding:0 1px 6px;margin:0}
+  .customer-heading{display:flex;align-items:center;gap:5px;min-width:0}
+  .customer-heading .back-link{padding:4px 5px 4px 0;margin:0;flex:0 0 auto;font-size:10px}
+  .customer-identity{display:flex;align-items:center;gap:0;min-width:0}
+  .customer-avatar,.editor-head-actions{display:none!important}
+  .customer-identity>div{min-width:0}
+  .customer-identity .eyebrow{display:none}
+  .editor-head h1{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:15px;line-height:1.2;margin:0}
+  .vehicle-line{font-size:10px;line-height:1.25}
+  .workspace-tabs{top:50px;height:34px;margin:0 -10px 6px;padding:0 10px}
+  .workspace-tab{min-height:34px;padding:6px 5px;font-size:10px}
+  .workspace-tab.active:after{left:12px;right:12px}
+  .editor-layout{gap:7px}
+  .preview-column{gap:6px}
+  .preview-panel{border-radius:11px}
+  .image-canvas{width:100%;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:1.58;background:#eef0ed}
+  .image-canvas>img{object-fit:contain;background:#eef0ed}
+  .preview-head{padding:7px 10px 1px}
+  .preview-title{font-size:17px;line-height:1.15}
+  .preview-subtitle{font-size:9px;line-height:1.25}
+  .preview-actions{gap:5px}
+  .preview-icon{width:29px;height:28px;border-radius:7px;font-size:12px}
+  .vehicle-specs{gap:4px;padding:4px 10px 8px}
+  .vehicle-spec-chip{min-height:21px;padding:3px 7px;border-radius:7px;font-size:9px}
+  .preview-foot{margin:0 10px 7px;padding-top:6px}
+  .preview-foot:not(:has(.photo-selector button)){display:none}
+  .preview-foot-right{display:none}
+  .customization-card{padding:10px 11px calc(78px + env(safe-area-inset-bottom));border-radius:11px}
+  .customization-card>.card-heading{margin:0 0 2px}
+  .customization-card>.card-heading .section-kicker{display:none}
+  .customization-card>.card-heading h2{font-size:16px;line-height:1.2;margin:0}
+  .customization-card>.card-heading .text-button{font-size:10px}
+  .service-tabs{top:84px;margin:3px -11px 6px;padding:0 11px;height:36px}
+  .service-tab{min-height:36px;font-size:11px}
+  .build-brief{display:none}
+  .mod-group summary{min-height:36px;padding:7px 0;gap:6px}
+  .mod-group summary .summary-icon{width:23px;height:23px}
+  .summary-title{font-size:11px}
+  .summary-value{max-width:34%;font-size:9px}
+  .include-status{font-size:6.5px;padding:2px 5px}
+  .mod-content{padding:0 0 8px}
+  .segmented{margin:1px 0 5px;padding:2px}
+  .seg{padding:6px 5px;font-size:9px}
+  .swatch-library-head{margin:5px 0 3px}
+  .swatch-library-head .section-kicker{font-size:11px}
+  .swatch-library-head small{font-size:8px}
+  .swatch-page{gap:2px;padding:3px 0}
+  .swatch-page .swatch-card{gap:2px;padding:2px}
+  .swatch-page .swatch-card>span{width:clamp(29px,8vw,36px);height:clamp(29px,8vw,36px)}
+  .swatch-page .swatch-card>b{font-size:6.5px;line-height:1}
+  .swatch-pagination{margin:3px auto 4px}
+  .custom-color-row{margin:5px 0 2px;gap:5px}
+  .custom-color-row label{font-size:9px}
+  .sub-label{margin:5px 0 4px;font-size:8px}
+  .finish-row{gap:5px}
+  .finish-chip{flex:1 0 65px;min-height:32px;padding:5px;font-size:9px}
+  .control-footer{width:100%;max-width:none;left:0;transform:none;margin:0;padding:7px 10px calc(7px + env(safe-area-inset-bottom));gap:7px}
+  .control-footer>button{min-height:42px}
+  .control-footer .outline-button{max-width:31%;font-size:9px;padding:6px}
+  .generate-btn{font-size:11px}
+  .editor-layout,.control-card,.preview-column{scroll-margin-top:92px}
+  .mod-group[data-service]{scroll-margin-top:126px}
+  .tint-feature-image{margin:5px 0;border-radius:9px;overflow:hidden}
+  .tint-feature-image img{display:block;width:100%;max-height:155px;object-fit:cover}
+  .tint-zone-intro{font-size:8px;margin:1px 0 6px}
+  .tint-zones{gap:6px}
+  .tint-zone{padding:7px}
+  .tint-choice-image{height:28px}
+  .photo-card .photo-tip{margin-top:5px}
+}
+@media(max-width:390px){
+  .editor-view{padding-left:8px;padding-right:8px}
+  .workspace-tabs{margin-left:-8px;margin-right:-8px}
+  .preview-title{font-size:16px}
+  .vehicle-spec-chip{font-size:8px;padding:2px 6px}
+  .customization-card{padding-left:9px;padding-right:9px}
+  .service-tabs{margin-left:-9px;margin-right:-9px;padding-left:9px;padding-right:9px}
+  .swatch-page .swatch-card>span{width:28px;height:28px}
+  .finish-chip{flex-basis:58px;font-size:8px}
+}
