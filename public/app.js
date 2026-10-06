@@ -69,7 +69,7 @@ function finishTintStep(v,button){
  if(tintGrouping==='individual'){
   if(button){button.classList.add('selection-confirm');button.classList.add('active');button.setAttribute('aria-pressed','true')}
   for(const z of targets)if(!tintCompleted.includes(z))tintCompleted.push(z);
-  tintAnnounce=tintAreas[activeTintTarget]+' saved.';renderTintProgress();updateSummaries();clearTimeout(tintAdvanceTimer);
+  tintAnnounce=tintAreas[activeTintTarget]+' saved.';tintProgressMarkup();updateSummaries();clearTimeout(tintAdvanceTimer);
   tintAdvanceTimer=setTimeout(()=>{const next=tintOrder.find(z=>!tintCompleted.includes(z));tintEditingCompleted=false;tintAnnounce=next?`Next: ${tintAreas[next]}.`:'All four window selections are set. Tap a checked window to edit it.';if(next)activeTintTarget=next;renderTintZones();updateSummaries()},280);
  }else{renderTintZones();updateSummaries()}
 }
@@ -77,7 +77,7 @@ function renderTintZones(){
  const group=$('#tintGrouping');if(!group)return;
  group.querySelectorAll('[data-group]').forEach(b=>{const on=b.dataset.group===tintGrouping;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on)});
  if(tintGrouping==='all')activeTintTarget='all';else if(!tintOrder.includes(activeTintTarget))activeTintTarget=tintOrder.find(z=>!tintCompleted.includes(z))||tintOrder[0];
- renderTintProgress();
+ tintProgressMarkup();
  const active=currentTargetTint(),shown=active==='custom'?(tintCustom[tintTargetAreas()[0]]||35):active==='mixed'?35:Number(active)||35;
  const done=tintGrouping==='individual'&&tintCompleted.length===tintOrder.length&&!tintEditingCompleted;
  const choices=['none','5','15','20','35','50','70','custom'];
