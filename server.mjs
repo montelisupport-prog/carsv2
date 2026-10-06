@@ -68,12 +68,15 @@ export function buildEditPrompt(config, variation = false) {
 }
 export function buildShotPrompt(config) {
   const vehicle = vehicleLabel(config);
-  const angle = clean(config.angle || 'alternate 3/4 view',60);
+  const rawAngle = String(config.angle || 'alternate 3/4 view');
+  const angle = clean(rawAngle,60);
+  const isDirectRear = /straight-on rear|direct rear/i.test(rawAngle);
   const specs = makeSpecs(config);
   const tintSpecs = specs.filter(spec => /\bVLT tint\b/i.test(spec));
   return [
     'Create one photorealistic alternate-angle automotive photograph using the supplied generated concept as the single authoritative reference image.',
     `Show the exact same ${vehicle} from the ${angle} camera angle.`,
+    isDirectRear ? 'Frame a true straight-on rear detail view from directly behind, with the trunk or rear hatch centered and tail lamps visible. Keep both sides symmetrical; do not mirror, flip, or reuse a rear three-quarter viewpoint.' : '',
     'The supplied reference already contains the approved build. Treat its exact vehicle identity, generation, body panels, paint or wrap color and finish, tint darkness by window area, wheel appearance, caliper color, and every selected detail as locked. Reproduce all of them faithfully; do not reinterpret, remove, add, or change any selected modification.',
     specs.length ? `The approved modifications visible in the reference are: ${specs.join('; ')}.` : '',
     tintAccuracyInstructions(tintSpecs),
