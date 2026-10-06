@@ -40,6 +40,7 @@ export function buildEditPrompt(config, variation = false) {
   const specs = makeSpecs(config);
   const vehicle = vehicleLabel(config);
   const angle = clean(config.angle || 'vehicle photo',40);
+  const tintSpecs = specs.filter(spec => /\bVLT tint\b/i.test(spec));
   return [
     'Edit the supplied vehicle photograph for a professional automotive customization shop concept preview.',
     'Preserve the exact source vehicle identity, generation and body style, perspective, camera position, body proportions, existing panels, environment, background, lighting, reflections, and every detail that was not requested to change.',
@@ -48,6 +49,11 @@ export function buildEditPrompt(config, variation = false) {
     config.currentColor ? `The vehicle's current paint color is ${clean(config.currentColor,50)}; preserve it unless a color wrap is selected.` : '',
     'Apply only the selected modifications below, as realistic installed changes that fit this vehicle:',
     specs.length ? specs.join('\n') : '- No requested modifications; preserve the vehicle unchanged.',
+    tintSpecs.length ? [
+      'WINDOW TINT ACCURACY: Treat each listed glass area as a separate panel with its own exact requested VLT. VLT is the percentage of visible light transmitted: a lower percentage must look substantially darker, and a higher percentage must look substantially lighter.',
+      'Do not average, normalize, equalize, or copy one tint shade across differently specified areas. For example, 15% must be visibly much darker than 75%; keep that contrast clear in the photograph.',
+      'Change only the glass areas named in the tint specifications. Preserve the original appearance of every unlisted glass area. Keep the windshield, front side windows, rear side windows, and rear windshield distinct when specified separately.'
+    ].join(' ') : '',
     variation ? 'Create a fresh plausible interpretation of the selected finishes while retaining the same vehicle, scene, angle, and all other requested specifications.' : 'Keep the source photograph composition intact and make only the selected changes.',
     'Favor accurate, restrained changes over dramatic redesign. This is a concept visualization, not a certified fitment or color match.'
   ].join('\n');

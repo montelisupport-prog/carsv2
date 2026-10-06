@@ -166,3 +166,14 @@ html,body{max-width:100%;overflow-x:hidden}
 .shots-image-frame img{width:100%;height:100%;object-fit:contain}.shots-image-frame span{position:absolute;left:12px;bottom:12px;background:#111d;color:#fff;padding:6px 9px;border-radius:6px;font-size:11px}
 .shots-generate{margin-top:14px;width:100%}.shots-dialog .shots-note{font-size:12px;margin-bottom:0}
 @media(max-width:700px){.image-canvas{min-height:210px}.result-header{align-items:flex-start}.result-controls{width:100%;justify-content:flex-start}.concept-tile{flex-basis:clamp(145px,66%,220px);width:clamp(145px,66%,220px)}.shots-dialog{padding:20px}.split-handle span{margin:9px 9px 0;font-size:10px;padding:7px 9px}}
+
+/* Persistent build action, drag affordance, and generated angle gallery */
+.control-footer{position:sticky;bottom:0;z-index:12;margin:12px -17px -17px;padding:12px 17px calc(12px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(14px);border-top:1px solid var(--line);box-shadow:0 -10px 24px #17201912}
+.split-grip{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42px;height:42px;display:grid;place-items:center;background:#fff;border:2px solid #fff;border-radius:50%;box-shadow:0 2px 10px #0006;z-index:3}
+.split-grip svg{width:23px;height:23px;fill:none;stroke:#27322c;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.shots-strip{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;width:100%;min-width:0;padding:12px 2px 8px;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.shot-card{flex:0 0 clamp(150px,30%,220px);min-width:0;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--text);padding:5px;text-align:left;overflow:hidden;scroll-snap-align:start}
+.shot-card.active{border-color:#81947e;box-shadow:0 0 0 1px #81947e66}
+.shot-card img{width:100%;aspect-ratio:1.5/1;object-fit:cover;border-radius:6px;display:block}
+.shot-card span{display:block;font-size:11px;padding:6px 3px 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:700px){.control-footer{margin-left:-13px;margin-right:-13px;padding-left:13px;padding-right:13px}.split-grip{width:38px;height:38px}.shot-card{flex-basis:68%}}
