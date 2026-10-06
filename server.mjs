@@ -27,6 +27,15 @@ function makeSpecs(config) {
   const mods = Array.isArray(config.modifications) ? config.modifications.slice(0,30) : [];
   return mods.map(x=>`- ${clean(x,120)}`).filter(Boolean);
 }
+function tintAccuracyInstructions(specs) {
+  if (!specs.some(spec=>/\bVLT tint\b/i.test(spec))) return '';
+  return [
+    'WINDOW TINT ACCURACY: VLT is the exact percentage of visible light that passes through the film. Lower VLT means darker glass; do not mistake the number for a darkness percentage.',
+    'Render each listed glass area independently at its specified VLT. Never average shades, reuse one shade across differently specified areas, or let one window selection change another. For example, 15% VLT side glass must look dramatically darker than a 75% VLT windshield.',
+    'DAYLIGHT APPEARANCE GUIDE: 5% VLT is limo-dark, near-black from outside; show strong exterior reflections and make seats, dashboard, and cabin details not discernible through that glass. 15% is very dark with the cabin mostly obscured. 20% is dark. 35% is medium-dark. 50% is moderately shaded but visibly lighter than 35%. 70–75% is light and mostly clear, with the cabin readily visible. No tint is clear factory glass.',
+    'Apply changes only to the named panes. Keep the windshield, front side windows, rear side windows, and rear windshield separate. Preserve every unlisted pane exactly as it appears in the source.'
+  ].join(' ');
+}
 export function buildBasePrompt(config) {
   const angle = clean(config.angle || 'Front 3/4',40);
   const vehicle = vehicleLabel(config);
@@ -41,22 +50,36 @@ export function buildEditPrompt(config, variation = false) {
   const vehicle = vehicleLabel(config);
   const angle = clean(config.angle || 'vehicle photo',40);
   const tintSpecs = specs.filter(spec => /\bVLT tint\b/i.test(spec));
+  const wrapSpecs = specs.filter(spec => /vehicle color wrap/i.test(spec));
   return [
     'Edit the supplied vehicle photograph for a professional automotive customization shop concept preview.',
     'Preserve the exact source vehicle identity, generation and body style, perspective, camera position, body proportions, existing panels, environment, background, lighting, reflections, and every detail that was not requested to change.',
+    'Keep the vehicle at the same apparent size and in the same position in the frame as the source. Preserve the crop and camera distance; do not zoom out, shrink the vehicle, add empty space around it, or change the image aspect ratio.',
     'Do not replace the vehicle, invent a new angle, change the scene, add text or logos, or modify any unselected part.',
     `Vehicle reference: ${vehicle}. Photo view: ${angle}.`,
     config.currentColor ? `The vehicle's current paint color is ${clean(config.currentColor,50)}; preserve it unless a color wrap is selected.` : '',
     'Apply only the selected modifications below, as realistic installed changes that fit this vehicle:',
     specs.length ? specs.join('\n') : '- No requested modifications; preserve the vehicle unchanged.',
-    tintSpecs.length ? [
-      'WINDOW TINT ACCURACY: Treat each listed glass area as a separate panel with its own exact requested VLT. VLT is the percentage of visible light transmitted: a lower percentage must look substantially darker, and a higher percentage must look substantially lighter.',
-      'Do not average, normalize, equalize, or copy one tint shade across differently specified areas. For example, 15% must be visibly much darker than 75%; keep that contrast clear in the photograph.',
-      'Change only the glass areas named in the tint specifications. Preserve the original appearance of every unlisted glass area. Keep the windshield, front side windows, rear side windows, and rear windshield distinct when specified separately.'
-    ].join(' ') : '',
+    wrapSpecs.length ? 'WRAP COLOR ACCURACY: The hex value in the wrap specification is the exact target color. Match that hue closely on every wrapped painted panel; do not substitute a nearby stock or named color. Finish affects sheen only, not the hue. The hex code is an instruction and must never appear as text in the image.' : '',
+    tintAccuracyInstructions(tintSpecs),
     variation ? 'Create a fresh plausible interpretation of the selected finishes while retaining the same vehicle, scene, angle, and all other requested specifications.' : 'Keep the source photograph composition intact and make only the selected changes.',
     'Favor accurate, restrained changes over dramatic redesign. This is a concept visualization, not a certified fitment or color match.'
   ].join('\n');
+}
+export function buildShotPrompt(config) {
+  const vehicle = vehicleLabel(config);
+  const angle = clean(config.angle || 'alternate 3/4 view',60);
+  const specs = makeSpecs(config);
+  const tintSpecs = specs.filter(spec => /\bVLT tint\b/i.test(spec));
+  return [
+    'Create one photorealistic alternate-angle automotive photograph using the supplied generated concept as the single authoritative reference image.',
+    `Show the exact same ${vehicle} from the ${angle} camera angle.`,
+    'The supplied reference already contains the approved build. Treat its exact vehicle identity, generation, body panels, paint or wrap color and finish, tint darkness by window area, wheel appearance, caliper color, and every selected detail as locked. Reproduce all of them faithfully; do not reinterpret, remove, add, or change any selected modification.',
+    specs.length ? `The approved modifications visible in the reference are: ${specs.join('; ')}.` : '',
+    tintAccuracyInstructions(tintSpecs),
+    'Only the camera viewpoint may change. Keep the vehicle a similar large size in frame, with realistic body proportions, lighting, reflections, and a matching professional studio environment. Do not add text, logos, people, or unrelated objects.',
+    'This is another photograph of the same reference vehicle, not a new design or a fresh vehicle based only on its name.'
+  ].filter(Boolean).join('\n');
 }
 function isImageData(value) { return typeof value === 'string' && /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(value); }
 function imageFromGemini(data) {
@@ -95,6 +118,12 @@ export async function generateOrEdit({body, env, fetcher=fetch}) {
   if (env.GEMINI_API_KEY) {
     const imageSource = isImageData(body.image) ? body.image : null;
     const savedBase = isImageData(body.baseImage) ? body.baseImage : null;
+    if (body.shotMode) {
+      const reference = imageSource || savedBase;
+      if (!reference) throw new Error('Open Shots from a saved concept so its generated image can anchor the other angles.');
+      const image = await geminiGenerate({prompt:buildShotPrompt(body),image:reference,env,fetcher});
+      return {ok:true,image,originalImage:reference,generatedReference:false};
+    }
     let originalImage = imageSource || savedBase;
     if (!originalImage) originalImage = await geminiGenerate({prompt:buildBasePrompt(body),env,fetcher});
     const mods = makeSpecs(body);
@@ -105,6 +134,7 @@ export async function generateOrEdit({body, env, fetcher=fetch}) {
   const model = env.OPENAI_IMAGE_MODEL || 'gpt-image-2.5-sunburst';
   const imageSource = isImageData(body.image) ? body.image : null;
   const savedBase = isImageData(body.baseImage) ? body.baseImage : null;
+  if (body.shotMode && !imageSource && !savedBase) throw new Error('Open Shots from a saved concept so its generated image can anchor the other angles.');
   let originalImage = imageSource || savedBase;
   if (!originalImage) {
     const refResponse = await fetcher('https://api.openai.com/v1/images/generations', {
@@ -118,10 +148,10 @@ export async function generateOrEdit({body, env, fetcher=fetch}) {
     originalImage = `data:image/png;base64,${refB64}`;
   }
   const mods = makeSpecs(body);
-  if (!mods.length) return {ok:true, image:originalImage, originalImage, generatedReference:!imageSource&&!savedBase};
+  if (!mods.length && !body.shotMode) return {ok:true, image:originalImage, originalImage, generatedReference:!imageSource&&!savedBase};
   const form = new FormData();
   form.append('model', model);
-  form.append('prompt', buildEditPrompt(body,Boolean(body.variation)));
+  form.append('prompt', body.shotMode ? buildShotPrompt(body) : buildEditPrompt(body,Boolean(body.variation)));
   form.append('size', 'auto');
   form.append('quality', 'high');
   form.append('output_format', 'png');
