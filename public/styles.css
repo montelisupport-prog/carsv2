@@ -686,16 +686,23 @@ body:has(#dashboard:not(.hidden)) .topbar{display:none!important}
 /* Preserve the supplied home cover proportions. */
 @media(max-width:740px){.home-hero{height:455px;max-height:455px;min-height:0;padding:35px 23px 36px}}
 
-/* Prevent mobile studio controls from collapsing into a blank canvas. */
+/* Mobile studio order: vehicle comparison, build controls, then saved concepts. */
 @media(max-width:740px){
  .editor-layout{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important}
- .editor-layout>.controls-column{display:flex!important;flex-direction:column!important;gap:8px!important;width:100%;max-width:none}
- .editor-layout>.preview-column{display:flex!important;flex-direction:column!important;gap:8px!important;width:100%;max-width:none;order:-1!important}
+ .editor-layout>.controls-column{display:contents!important}
+ .editor-layout>.preview-column{display:contents!important}
  .editor-layout>.preview-column.hidden{display:none!important}
- .editor-layout>.preview-column>.preview-panel{display:contents!important}
- .controls-column>.customization-card{order:1!important;display:block!important;min-height:0}
- .controls-column>.editor-details{order:2!important;display:grid!important;min-height:0}
- .editor-details:empty{display:none!important}
- .result-panel{display:block}
+ .preview-column>.preview-panel{display:contents!important}
+ .image-canvas{order:1!important}
+ .preview-head{order:2!important}
+ .vehicle-specs{order:3!important}
+ .customization-card{order:4!important;display:block!important;min-height:0}
+ .preview-foot{order:5!important}
+ .result-panel{order:6!important;display:block}
  .result-panel.hidden{display:none!important}
+ .editor-details{order:7!important;display:grid!important;min-height:0}
+ .editor-details:empty{display:none!important}
 }
+.concept-empty{padding:14px 2px 3px;color:#28312c}
+.concept-empty h3{margin:0 0 4px;font-size:17px;letter-spacing:-.02em}
+.concept-empty p{margin:0;color:#7a837c;font-size:12px;line-height:1.45}
