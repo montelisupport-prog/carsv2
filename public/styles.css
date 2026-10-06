@@ -354,7 +354,7 @@ body{background:var(--bg);color:#202522}
   .editor-layout{gap:7px}
   .preview-column{gap:6px}
   .preview-panel{border-radius:11px}
-  .image-canvas{width:100%;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:1.58;background:#eef0ed}
+  .image-canvas{width:100%;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:1.85;background:#eef0ed}
   .image-canvas>img{object-fit:contain;background:#eef0ed}
   .preview-head{padding:7px 10px 1px}
   .preview-title{font-size:17px;line-height:1.15}
