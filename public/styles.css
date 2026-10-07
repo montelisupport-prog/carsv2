@@ -541,7 +541,7 @@ body:has(#dashboard:not(.hidden)) .new-top{background:#f6f7f3;color:#1e2822}
 .home-hero h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(58px,7.5vw,96px);font-weight:400;line-height:.91;letter-spacing:-.055em;margin:30px 0 19px}
 .home-hero-copy p{font-size:17px;line-height:1.45;color:#e0e4e0;max-width:355px;margin:0 0 25px}
 .hero-cta{border:0;border-radius:999px;background:#f7f8f5;color:#17211b;display:inline-flex;align-items:center;gap:12px;padding:14px 22px;font-size:15px;font-weight:700;box-shadow:0 8px 30px #0003;transition:transform .18s,background .18s}
-.hero-cta:hover{background:#e7eee8;transform:translateY(-2px)}.hero-cta span{font-size:20px}.hero-cta b{font-size:21px;margin-left:3px}
+.hero-cta:hover{background:#e7eee8;transform:translateY(-2px)}.hero-cta span{font-size:inherit}.hero-cta b{font-size:21px;margin-left:3px}
 .hero-caption{position:absolute;left:max(6vw,calc((100vw - 1320px)/2));right:max(6vw,calc((100vw - 1320px)/2));bottom:22px;display:flex;justify-content:space-between;align-items:center;color:#ffffffb0;font-size:9px;letter-spacing:.16em;font-weight:650}
 .hero-current-count{display:flex;align-items:center;gap:8px}.hero-current-count b{font-size:18px;letter-spacing:0;color:white}
 .home-content{max-width:1320px;margin:0 auto;padding:0 34px}
